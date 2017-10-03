@@ -91,3 +91,14 @@ server.del('/sendDelete', function (req, res, next) {
         }
     });
 });
+
+//JS Sequence Diagrams
+
+//GET Method: filename: get-diagram.svg
+//User->Web API: HTTP Request
+//Note right of User: GET:\n /sendGet
+//Web API->Data: find products
+//Data-->Web API: Return products
+//Web API-->User: HTTP Response
+//Note right of User: {product:"name",price:"price",id:"id"}
+
