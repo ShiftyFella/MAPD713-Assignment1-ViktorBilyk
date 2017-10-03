@@ -20,3 +20,18 @@ server.listen(PORT, HOST, function () {
     console.log("%s/sendPost --- Add products in format {id,product: name,price: price}", server.url);
     console.log("%s/sendDelete --- Deletes all products", server.url);
 });
+
+//ability to use POST and mapping request parametrs
+server.use(restify.fullResponse());
+server.use(restify.bodyParser());
+
+//GET endpoint that displays All information
+server.get('/sendGet', function (req, res, next) {
+    getRequestCounter++;
+    console.log("---> sendGet: request received");
+    productsInMemDB.find({}, function (error, products) {
+        console.log("---< sendGet: sending response");
+        res.send(products);
+    });
+    console.log("Processed Request Counters ---> GET: %s | POST: %s", getRequestCounter, postRequestCounter);
+});
