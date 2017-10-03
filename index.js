@@ -102,3 +102,11 @@ server.del('/sendDelete', function (req, res, next) {
 //Web API-->User: HTTP Response
 //Note right of User: {product:"name",price:"price",id:"id"}
 
+//POST Method: filename: post-diagram.svg
+//User->Web API: HTTP Request
+//Note right of User: POST:\n /sendPost\n{product:TV, price: 26}
+//Web API->Data: Create Product
+//Data-->Web API: Return code
+//Web API-->User: HTTP Response
+//Note right of User: {_id: "id", TV, 26}
+
