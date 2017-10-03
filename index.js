@@ -75,3 +75,19 @@ server.post('/sendPost', function (req, res, next) {
     });
     console.log("Processed Request Counters ---> GET: %s | POST: %s", getRequestCounter, postRequestCounter);
 });
+
+//DELETE endpoint that deletes ALL products from memory storage
+server.del('/sendDelete', function (req, res, next) {
+    console.log("--> sendDelete: request received");
+    //find all products if error, display it, otherwise send OK response after deletion
+    productsInMemDB.deleteMany({}, function (error, products) {
+        if (error) {
+            console.log("--< sendDelete: Error deleting products");
+            return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)));
+        }
+        else {
+            res.send(200);
+            console.log("--< sendDelete: All products deleted");
+        }
+    });
+});
