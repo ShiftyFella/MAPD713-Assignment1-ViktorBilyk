@@ -35,3 +35,43 @@ server.get('/sendGet', function (req, res, next) {
     });
     console.log("Processed Request Counters ---> GET: %s | POST: %s", getRequestCounter, postRequestCounter);
 });
+
+//POST endpoint that adds to memory database received product
+server.post('/sendPost', function (req, res, next) {
+
+    postRequestCounter++;
+    console.log("---> sendPost: request received");
+
+    //if one or more parametrs are not supplied show error
+    if (req.params.product === undefined ) {
+        console.log("--< sendPost: Error - No Product Name");
+        console.log("Processed Request Counters ---> GET: %s | POST: %s", getRequestCounter, postRequestCounter);
+        return next(new restify.InvalidArgumentError('Product name must be entered'));
+    }
+
+    if (req.params.price === undefined) {
+        console.log("--< sendPost: Error - No Product Price");
+        console.log("Processed Request Counters ---> GET: %s | POST: %s", getRequestCounter, postRequestCounter);
+        return next(new restify.InvalidArgumentError('Product price should be supplied'));
+    }
+
+    //creating product object
+    var newProduct = {
+        product: req.params.product,
+        price: req.params.price
+    };
+
+    //saving product in memory, if error, display error, otherwise send product info in body response
+    productsInMemDB.create(newProduct, function (error, product) {
+        if (error) {
+            console.log("---< sendPost: Error creating a product");
+            console.log("Processed Request Counters ---> GET: %s | POST: %s", getRequestCounter, postRequestCounter);
+            return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)));
+        }
+        else {
+            res.send(201,product);
+            console.log("---< sendPost: sending product response");
+        }
+    });
+    console.log("Processed Request Counters ---> GET: %s | POST: %s", getRequestCounter, postRequestCounter);
+});
